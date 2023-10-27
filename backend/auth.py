@@ -31,8 +31,6 @@ def get_token_auth_header():
     if 'Authorization' not in request.headers:
         raise AuthError('No authorization provided', 401)
     header_parts = request.headers['Authorization'].split(' ')
-    print(header_parts)
-
     if len(header_parts) != 2 or header_parts[0].lower() != 'bearer':
         raise AuthError('Malformed authorization header', 401)
     return header_parts[1]
@@ -45,7 +43,6 @@ def check_permissions(permission, payload):
         permission -- (str) The permission key in the payload we want to verify.
         payload -- the decoded jwt
     '''
-    print(payload)
     if 'permissions' not in payload:
         raise AuthError('Permissions not included in JWT', 401)
     if permission not in payload['permissions'] and not payload['admin']:

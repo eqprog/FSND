@@ -4,14 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 from flask import jsonify
 from flask_migrate import Migrate
-
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
 from roles_and_status import ForumRoles, UserStatus
-
-
-
 
 database_path = os.environ['DATABASE_URL']
 if database_path.startswith("postgres://"):
@@ -29,28 +24,6 @@ def setup_db(app, database_path=database_path):
     db.app = app
     db.init_app(app)
     db.create_all()
-
-
-# '''
-# Person
-# Have title and release year
-# '''
-# class Person(db.Model):  
-#   __tablename__ = 'People'
-
-#   id = Column(db.Integer, primary_key=True)
-#   name = Column(String)
-#   catchphrase = Column(String)
-
-#   def __init__(self, name, catchphrase=""):
-#     self.name = name
-#     self.catchphrase = catchphrase
-
-#   def format(self):
-#     return {
-#       'id': self.id,
-#       'name': self.name,
-#       'catchphrase': self.catchphrase}
 
 class Forum(db.Model):
     __tablename__ = 'forums'
@@ -90,13 +63,6 @@ class Forum(db.Model):
             'threads': self.threads
         }
 
-    # def __repr__(self):
-    #     return jsonify({ 
-    #         'id': self.id,
-    #         'name': self.name,
-    #         'description': self.description
-    #     })
-
 class Thread(db.Model):
     __tablename__ = 'threads'
 
@@ -122,7 +88,7 @@ class Thread(db.Model):
         db.session.commit()
 
     def delete(self):
-        db.session.delete()
+        db.session.delete(self)
         db.session.commit()
 
     def format(self):
