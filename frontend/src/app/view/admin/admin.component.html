@@ -1,0 +1,87 @@
+<div class="actions">
+  <span>Select Action:</span> <span (click)="selectAction('forum')">Create Forum</span> <span (click)="selectAction('ban')">Ban User</span>
+</div>
+
+<ng-container *ngTemplateOutlet="serverResponse ? formResponse : adminActions"></ng-container>
+
+<ng-template #formResponse>
+  <h1>{{serverResponse?.status}}</h1>
+  <div>
+    {{serverResponse?.message}}
+  </div>
+  <p>
+    <button type="click" (click)="resetViewFromResponse()">Try Again!</button>
+  </p>
+</ng-template>
+
+<ng-template #adminActions>
+  <ng-container *ngIf="view === 'forum'">
+    <form [formGroup]="forms[view]" (submit)="submitForm(view)">
+      <h1>Create Forum:</h1>
+      <!-- Input new forum name -->
+      <div>
+        <label for="forum-name">Forum Name: </label>
+        <input id="forum-name" type="text" formControlName="name">
+      </div>
+
+      <!-- Input new forum description -->
+      <div>
+        <label for="forum-description">Description: </label>
+        <input id="forum-description" type="text" formControlName="description">
+      </div>
+
+      <button type="submit" [disabled]="forms[view].invalid">Create Forum</button>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="view === 'ban'">
+    <form [formGroup]="forms[view]" (submit)="submitForm(view)">
+      <h1>Ban User:</h1>
+      <!-- Select user name -->
+      <div>
+        <label for="ban-user">User Name: </label>
+        <input id="ban-user" type="text" list="user-list" formControlName="user" (change)="userSelected()">
+        <datalist id="user-list">
+          <option *ngFor="let user of userListResponse?.users" [ngValue]="user">{{user.name}}</option>
+        </datalist>
+      </div>
+
+      <!-- Select Ban Type -->
+      <div>
+        <label for="ban-type">Type: </label>
+        <select id="ban-type" formControlName="type" (change)="selectBanType()">
+          <ng-container *ngFor="let type of banTypes">
+            <option [value]="type">{{type}}</option>
+          </ng-container>
+        </select>
+      </div>
+      <!-- Select Ban Duration -->
+      <div>
+        <ng-container *ngIf="banTypeSelected">
+          <ng-container *ngIf="banTypeSelected === 'PROBATION'">
+              <label for="ban-duration">Duration: </label>
+              <select id="ban-duration" formControlName="duration">
+                <ng-container *ngFor="let option of probationDurationOptions">
+                  <option [value]="option">{{option}}</option>
+                </ng-container>
+              </select>
+            </ng-container>
+          <ng-container *ngIf="banTypeSelected === 'PERMANENT'">
+            <label>Duration: </label> <strong> PERMANENT </strong>
+          </ng-container>
+          <ng-container *ngIf="banTypeSelected === 'REMOVE'">
+            <label>Duration: </label> <strong> BAN/PROBATION WILL BE REMOVED IMMEDIATELY </strong>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <!-- Input Ban Reason -->
+      <div>
+        <label for="ban-reason">Reason: </label>
+        <div><textarea id="ban-reason" formControlName="reason"></textarea></div>
+      </div>
+
+      <button type="submit" [disabled]="forms[view].invalid">Ban User</button>
+    </form>
+  </ng-container>
+</ng-template>

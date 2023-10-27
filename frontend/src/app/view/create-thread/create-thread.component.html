@@ -1,0 +1,22 @@
+<ng-container *ngIf="!forum; else loaded">
+  <h1> Sorry, this is just a demo app. Go to the homepage and start over (lost state)</h1>
+</ng-container>
+
+<ng-template #loaded>
+  <h1>Create Thread</h1>
+  <h2>Target: {{ forum?.name }} </h2>
+
+  <form [formGroup]="form" (submit)="submitThread()">
+    <div>
+      <label for="title">Thread Title: </label>
+      <input id="title" type="text" formControlName="title">
+    </div>
+    <div>
+      <label for="content">Thread content </label>
+      <textarea id="content" type="text" formControlName="content"></textarea>
+    </div>
+    <div>
+      <button type="submit" [disabled]="form.invalid">Create Thread</button>
+    </div>
+  </form>
+</ng-template>

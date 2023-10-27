@@ -1,0 +1,41 @@
+<div class="page">
+  <div class="page-header">
+    <span>
+      <span class="pointer" *ngIf="forum" (click)="goToForum()">{{forum.name}}</span>
+      <span> > </span>
+      <span>{{ threadResponse ? threadResponse.page.title : 'Error Retrieving Title'}}</span>
+    </span>
+    <div class="header-buttons">
+      <button type="button" (click)="post()">Post In This Thread</button><button type="button">Lock Thread</button>
+    </div>
+  </div>
+  <div class="posts">
+    <ng-container *ngFor="let post of threadResponse?.page?.posts; let first = first">
+      <div class="user-info">
+        <div>{{post?.user_name}}</div>
+        <div class="date-posted">Posted On: {{post?.dateCreated | date:'short'}}</div>
+      </div>
+      <div class="post">
+        <ng-container *ngIf="!post?.markedForDeletion; else showDeleteConfirmation">
+          <div class="post-content">
+            {{post?.content}}
+          </div>
+          <div class="post-actions">
+            <button type="button" (click)="editPost(post.id)">Edit Post</button>
+            <button type="button" *ngIf="first">Lock Thread</button>
+            <button type="button" *ngIf="!first" (click)="markForDeletion(post)">Delete Post</button>
+          </div>
+        </ng-container>
+        <ng-template #showDeleteConfirmation>
+          <div class="post-marked-for-deletion">
+            <p>Are you sure you want to delete?</p>
+            <div>
+              <button (click)="confirmDelete(post)">CONTINUE</button>
+              <button (click)="cancelDelete(post)">CANCEL</button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </ng-container>
+  </div>
+</div>

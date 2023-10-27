@@ -1,0 +1,13 @@
+.actions {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+
+  span:first-child {
+    font-weight: 700;
+  }
+
+  span:not(:first-child) {
+    cursor: pointer;
+    margin-inline-start: 1rem;
+  }
+}

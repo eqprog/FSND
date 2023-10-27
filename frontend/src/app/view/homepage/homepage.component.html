@@ -1,0 +1,14 @@
+
+<button type="button" (click)="router.navigateByUrl('login')">Login</button>
+<h1>Welcome to the Forums!</h1>
+
+<ng-container *ngFor="let forum of forumResponse?.forums">
+  <div (click)="viewForum(forum.id)">
+    <span>#{{forum.id}}</span><span>{{forum.name}} - </span><span>[{{forum.description}}]</span>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!forumResponse?.forums">
+  <p>Oops! Something went wrong loading the forum information!</p>
+</ng-container>
+
