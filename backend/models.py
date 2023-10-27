@@ -197,7 +197,7 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.String(), primary_key=True)
-    name = db.Column(db.String(36), primary_key=True)
+    name = db.Column(db.String(36), nullable=False)
     join_date = db.Column(db.DateTime, default=datetime.utcnow())
     posts = db.relationship('Post', backref=db.backref('users'), lazy=True)
     # role = db.Column(db.String(), nullable=False, default=ForumRoles.USER)
