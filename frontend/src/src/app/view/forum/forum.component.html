@@ -1,0 +1,8 @@
+<ng-container *ngIf="forum">
+
+  <h1>{{forum.name}}</h1>
+  <button type="button" (click)="createThread()">Create Thread</button>
+  <ng-container *ngFor="let thread of threads">
+    <div (click)="viewThread(thread)"><span>{{thread.title}}</span><span>OP: {{thread.user_id}}</span><span>{{thread.dateCreated}}</span></div>
+  </ng-container>
+</ng-container>

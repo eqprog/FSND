@@ -1,0 +1,42 @@
+<ng-container *ngIf="!state?.forum || !state?.thread; else hasState">
+  This is just a demo app! If you're seeing this message you have navigated to this page incorrectly. Go back to a thread and press the button to add or edit a post!
+</ng-container>
+<ng-template #hasState>
+  <div class="page">
+    <div class="page-header">
+      <span>
+        <span class="pointer" (click)="goToForum()">{{state.forum?.name}}</span>
+        <span> > </span>
+        <span>{{ state.thread ? state.thread.title : 'Error Retrieving Title'}}</span>
+        <span> > </span>
+        <span>{{editMode ? 'Edit Post' : 'Create Post'}}</span>
+      </span>
+      <div class="header-buttons">
+        <button type="button">Cancel</button>
+      </div>
+    </div>
+    <div class="form">
+      <ng-container *ngIf="editMode && !postId">
+        Notice! There was something wrong with the route! Edit mode but not post id provided!
+      </ng-container>
+      <form *ngIf="form" [formGroup]="form" (submit)="submitForm()">
+        <div>
+          <textarea formControlName="content"></textarea>
+        </div>
+        <button type="submit">Submit</button>
+        <button type="button" (click)="navigateToThread()">Go Back</button>
+      </form>
+    </div>
+  </div>
+  <ng-container *ngIf="status === 'SUCCESS'">
+    Successfully submitted! Returning you to your thread
+    <ng-container *ngFor="let dot of loadingDots">
+      {{dot}}
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="error">
+    Uh Oh something went wrong! This error sure is helpful.
+  </ng-container>
+
+</ng-template>
+

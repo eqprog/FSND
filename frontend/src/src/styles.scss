@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+.pointer {
+  cursor: pointer;
+}
+
+
+.page {
+  margin-inline: 2.5vw;
+}
+
+.page-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-block: 1rem;
+  font-weight: 700;
+  font-size: 2rem;
+
+  .header-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    button {
+      margin-left: 1rem;
+    }
+  }
+}
