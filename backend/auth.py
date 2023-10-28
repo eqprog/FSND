@@ -4,12 +4,13 @@ from functools import wraps
 from urllib.request import urlopen
 import jwt
 from jwt import PyJWKClient
+import os
 
 
 
-AUTH0_DOMAIN = 'https://dev-baow3yyrlofptv6m.us.auth0.com/'
+AUTH0_DOMAIN = os.environ['AUTH0_DOMAIN']
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'coffee'
+API_AUDIENCE = os.environ['AUTH0_AUDIENCE']
 
 ## AuthError Exception
 '''

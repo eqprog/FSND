@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, abort, jsonify
+from flask import Flask, request, abort, jsonify, render_template, redirect
 from models import setup_db
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -35,6 +35,10 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE,OPTIONS')
         return response
 
+    @app.route('/', methods=['GET'])
+    def get_home():
+        return render_template('frontend/index.html')
+    
     @app.route('/admin/create/forum', methods=['POST'])
     @requires_auth('admin')
     def create_forum(jwt):
@@ -154,7 +158,7 @@ def create_app(test_config=None):
             'user': user.format()
         }
 
-    @app.route('/', methods=['GET'])
+    @app.route('/all', methods=['GET'])
     def get_forums():
         """
         Retrieves the list of forums.
@@ -416,7 +420,9 @@ def create_app(test_config=None):
             Arguments
                 error -- Error information
         '''
-        return error_message(404, 'resource not found!')
+        if test_config != None:
+            return error_message(404, 'resource not found!')
+        return redirect('/')
 
     @app.errorhandler(401)
     def unauthorized(error):
