@@ -37,7 +37,7 @@ def create_app(test_config=None):
 
     @app.route('/', methods=['GET'])
     def get_home():
-        return render_template('frontend/index.html')
+        return render_template('index.html')
     
     @app.route('/admin/create/forum', methods=['POST'])
     @requires_auth('admin')
